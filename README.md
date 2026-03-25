@@ -102,3 +102,46 @@ Dann im Browser öffnen:
 - **Mehrere Globen auf einer Seite:** Jede Canvas braucht eine eigene `id`.
 
 Wenn du willst, passe ich dir den Embed-Code direkt für dein konkretes Webflow-Layout an (z. B. 100% Breite in einer bestimmten Section, langsamere Rotation, andere Marker/Farben).
+
+## Minimaler Webflow-Embed (Copy/Paste)
+
+Wenn du nur schnell etwas Funktionierendes brauchst, nimm genau diesen Block in ein Webflow-**Embed**-Element:
+
+```html
+<div style="width:100%;max-width:520px;aspect-ratio:1/1;margin:0 auto;">
+  <canvas id="wf-globe" style="width:100%;height:100%;display:block;"></canvas>
+</div>
+<script type="module">
+  import createGlobe from "https://cdn.jsdelivr.net/npm/cobe@0.6.5/dist/index.esm.js"
+  const c = document.getElementById('wf-globe')
+  let phi = 0, w = 0
+  const resize = () => {
+    w = c.offsetWidth
+    c.width = w * devicePixelRatio
+    c.height = w * devicePixelRatio
+  }
+  resize(); addEventListener('resize', resize)
+  createGlobe(c, {
+    devicePixelRatio,
+    width: w * devicePixelRatio,
+    height: w * devicePixelRatio,
+    phi: 0,
+    theta: 0.3,
+    dark: 0,
+    mapSamples: 16000,
+    mapBrightness: 6,
+    baseColor: [0.85, 0.9, 1],
+    markerColor: [0.1, 0.4, 1],
+    glowColor: [0.7, 0.85, 1],
+    markers: [{ location: [52.52, 13.405], size: 0.06 }],
+    onRender: (s) => {
+      s.phi = phi
+      s.width = w * devicePixelRatio
+      s.height = w * devicePixelRatio
+      phi += 0.004
+    }
+  })
+</script>
+```
+
+Datei dazu im Repo: `webflow-embed-minimal.html`.
