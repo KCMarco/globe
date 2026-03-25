@@ -24,6 +24,8 @@ Dann im Browser öffnen:
 
 ### Option A (empfohlen): Direkt per **Embed**-Element
 
+> Hinweis: Bei `cobe` gibt es auf jsDelivr **keine** `cobe.umd.min.js`. Verwende stattdessen `dist/index.esm.js` mit `type="module"`.
+
 1. In Webflow Designer auf deiner Seite ein **Embed**-Element hinzufügen.
 2. Den folgenden Code komplett einfügen.
 3. Veröffentlichen.
@@ -33,11 +35,12 @@ Dann im Browser öffnen:
   <canvas id="globe-cobe" style="width:100%;height:100%;display:block;background:transparent;"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/cobe@0.6.1/dist/cobe.umd.min.js"></script>
-<script>
+<script type="module">
+  import createGlobe from "https://cdn.jsdelivr.net/npm/cobe@0.6.5/dist/index.esm.js"
+
   (() => {
     const canvas = document.getElementById('globe-cobe')
-    if (!canvas || typeof createGlobe !== 'function') return
+    if (!canvas) return
 
     const markers = [
       { location: [52.52, 13.405], size: 0.05 },
@@ -87,10 +90,9 @@ Dann im Browser öffnen:
 
 ### Option B: Seite-weit via **Page Settings**
 
-- Falls du das Script lieber global laden willst, füge
-  `<script src="https://cdn.jsdelivr.net/npm/cobe@0.6.1/dist/cobe.umd.min.js"></script>`
-  in Webflow unter **Page Settings → Before `</body>`** ein.
-- Im Embed bleibt dann nur noch `<canvas>` + Initialisierungs-Script.
+- Falls du das Script lieber global laden willst, füge in Webflow unter **Page Settings → Before `</body>`** ein eigenes `type="module"`-Script mit folgendem Import ein:
+  `import createGlobe from "https://cdn.jsdelivr.net/npm/cobe@0.6.5/dist/index.esm.js"`
+- Im Embed bleibt dann nur noch `<canvas>` + der restliche Initialisierungs-Code.
 
 ## Häufige Probleme in Webflow
 
